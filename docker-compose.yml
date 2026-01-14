@@ -1,0 +1,14 @@
+services:
+  hytale-server:
+    build:
+      context: .  # Build from current directory
+      dockerfile: Dockerfile  # Your Dockerfile name
+    container_name: hytale-test
+    volumes:
+    - launcher:/app/launcher
+    - gamefiles:/app/data
+    stdin_open: true
+    tty: true
+
+volumes:
+  launcher:
