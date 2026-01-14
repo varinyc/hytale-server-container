@@ -8,11 +8,10 @@ services:
       INIT_MEMORY: "16G"
       MAX_MEMORY: "16G"
       AOT: true
-      TZ: "America/Chicago"
     stdin_open: true
     tty: true
     ports:
-      - "5520:5520"
+      - "5520:5520/udp"
     volumes:
     - launcher:/app/launcher
     - gamefiles:/app/data

@@ -5,4 +5,6 @@ RUN apt-get update && apt-get install -y curl unzip bash jq tzdata && \
 COPY start.sh /app/start.sh
 RUN chmod +x /app/start.sh
 
+EXPOSE 5520/udp
+
 ENTRYPOINT ["/app/start.sh"]

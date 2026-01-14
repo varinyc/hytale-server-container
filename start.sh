@@ -3,8 +3,7 @@ set -e
 
 mkdir -p /app/launcher
 mkdir -p /app/data
-export HOME=/app/launcher
-cd /app/launcher
+cd /app
 
 server_location="/app/data"
 config_file="${server_location}/config.json"
@@ -73,6 +72,7 @@ if [ ! -f "${launcher_file}" ]; then
   chmod +x "${launcher_file}"
 fi
 
+cd /app/launcher
 log "Printing Hytale-Downloader versions to proc Interactive Session"
 "${launcher_file}" -version
 "${launcher_file}" -print-version
@@ -138,6 +138,8 @@ identity_token=$(echo "$SESSION_RESPONSE" | jq -r '.identityToken')
 log "Starting Hytale server..."
 log "Using memory: ${INIT_MEMORY} initial, ${MAX_MEMORY} max"
 
+
+cd "${server_location}/Server"
 if [ "${AOT}" = "true" ]; then
   exec java -Xmx${MAX_MEMORY} -Xms${INIT_MEMORY} -XX:AOTCache="${server_location}/Server/HytaleServer.aot" -jar "${server_location}/Server/HytaleServer.jar" --assets "${server_location}/Assets.zip" --session-token "${session_token}" --identity-token "${identity_token}"
 else
