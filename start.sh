@@ -2,6 +2,7 @@
 set -e
 
 mkdir -p /app/launcher
+mkdir -p /app/data
 export HOME=/app/launcher
 cd /app/launcher
 
@@ -10,9 +11,6 @@ config_file="${server_location}/config.json"
 
 launcher_location="/app/launcher"
 launcher_file="${launcher_location}/hytale-downloader-linux-amd64"
-
-refresh_token=""
-game_version=""
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $@" >&2; }
 
@@ -62,6 +60,9 @@ else
     "game_version": null,
     "refresh_token": null
   }' > ${config_file}
+
+  refresh_token=""
+  game_version=""
 fi
 
 log "Checking for hytale-downloader..."
@@ -135,4 +136,11 @@ session_token=$(echo "$SESSION_RESPONSE" | jq -r '.sessionToken')
 identity_token=$(echo "$SESSION_RESPONSE" | jq -r '.identityToken')
 
 log "Starting Hytale server..."
-exec java -Xmx16G -Xms16G -jar "${server_location}/Server/HytaleServer.jar" --assets "${server_location}/Assets.zip" --session-token "${session_token}" --identity-token "${identity_token}"
+log "Using memory: ${INIT_MEMORY} initial, ${MAX_MEMORY} max"
+
+if [ "${AOT}" = "true" ]; then
+  exec java -Xmx${MAX_MEMORY} -Xms${INIT_MEMORY} -XX:AOTCache="${server_location}/Server/HytaleServer.aot" -jar "${server_location}/Server/HytaleServer.jar" --assets "${server_location}/Assets.zip" --session-token "${session_token}" --identity-token "${identity_token}"
+else
+  exec java -Xmx${MAX_MEMORY} -Xms${INIT_MEMORY} -jar "${server_location}/Server/HytaleServer.jar" --assets "${server_location}/Assets.zip" --session-token "${session_token}" --identity-token "${identity_token}"
+fi
+

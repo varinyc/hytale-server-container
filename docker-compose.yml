@@ -1,14 +1,22 @@
 services:
-  hytale-server:
+  hytale:
     build:
-      context: .  # Build from current directory
-      dockerfile: Dockerfile  # Your Dockerfile name
-    container_name: hytale-test
+      context: .
+      dockerfile: Dockerfile
+    container_name: hytale
+    environment:
+      INIT_MEMORY: "16G"
+      MAX_MEMORY: "16G"
+      AOT: true
+      TZ: "America/Chicago"
+    stdin_open: true
+    tty: true
+    ports:
+      - "5520:5520"
     volumes:
     - launcher:/app/launcher
     - gamefiles:/app/data
-    stdin_open: true
-    tty: true
-
 volumes:
   launcher:
+  gamefiles:
+
