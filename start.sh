@@ -141,8 +141,8 @@ log "Using memory: ${INIT_MEMORY} initial, ${MAX_MEMORY} max"
 
 cd "${server_location}/Server"
 if [ "${AOT}" = "true" ]; then
-  exec java -Xmx${MAX_MEMORY} -Xms${INIT_MEMORY} -XX:AOTCache="${server_location}/Server/HytaleServer.aot" -jar "${server_location}/Server/HytaleServer.jar" --assets "${server_location}/Assets.zip" --session-token "${session_token}" --identity-token "${identity_token}"
+  exec java -Xmx${MAX_MEMORY} -Xms${INIT_MEMORY} -XX:AOTCache="${server_location}/Server/HytaleServer.aot" -jar "${server_location}/Server/HytaleServer.jar" --assets "${server_location}/Assets.zip" --session-token "${session_token}" --identity-token "${identity_token}" --accept-early-plugin
 else
-  exec java -Xmx${MAX_MEMORY} -Xms${INIT_MEMORY} -jar "${server_location}/Server/HytaleServer.jar" --assets "${server_location}/Assets.zip" --session-token "${session_token}" --identity-token "${identity_token}"
+  exec java -Xmx${MAX_MEMORY} -Xms${INIT_MEMORY} -jar "${server_location}/Server/HytaleServer.jar" --assets "${server_location}/Assets.zip" --session-token "${session_token}" --identity-token "${identity_token}" --accept-early-plugin
 fi
 
