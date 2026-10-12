@@ -86,7 +86,7 @@ log "Remote Version: ${new_game_version} // Local Version: ${game_version}"
 
 if [ "${new_game_version}" != "${game_version}" ]; then
   log "Updating server files..."
-  "${launcher_file}" -download-path /tmp/server.zip -skip-update-check
+  "${launcher_file}" -download-path /tmp/server.zip -skip-update-check -patchline pre-release
 
   log "Extracting server files..."
   unzip -o /tmp/server.zip -d "${server_location}"
